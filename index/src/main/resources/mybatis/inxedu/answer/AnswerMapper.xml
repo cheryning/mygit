@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AnswerMapper">
+ 
+	<resultMap id="AnswerResult" type="Answer">
+	<result property="id" column="ID" />
+	<result property="subject" column="SUBJECT" />
+	<result property="answer" column="ANSWER"/>
+	<result property="course_id" column="COURSE_ID"/>
+	</resultMap>
+
+   
+
+	<!-- 考试查询 -->
+	<sql id = "edu_answer">
+	 EDU_ANSWER.ID,
+	 EDU_ANSWER.SUBJECT,
+	 EDU_ANSWER.ANSWER,
+	 EDU_ANSWER.COURSE_ID
+	</sql>
+
+	<!-- 查询考题 -->
+	 <select id = "queryAnswer" parameterType="java.util.Map" resultMap="AnswerResult">
+	   SELECT <include refid="edu_answer"/>  FROM EDU_ANSWER where EDU_ANSWER.COURSE_ID = #{courseId}
+	 </select>
+	
+	<select id="queryAnswerById" parameterType="int"  resultMap="AnswerResult">
+	SELECT <include refid="edu_answer"/>  FROM EDU_ANSWER  where EDU_ANSWER.ID =#{value}
+	</select>
+	
+	<insert id="createAnswer" parameterType = "java.util.Map">
+	
+	INSERT INTO EDU_ANSWER (SUBJECT,ANSWER,COURSE_ID) VALUES(#{problems},#{answer},#{operate});
+	</insert>
+	
+</mapper>
