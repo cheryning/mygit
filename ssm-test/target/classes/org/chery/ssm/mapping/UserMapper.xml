@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.chery.ssm.dao.UserDao">   
+<resultMap type="org.chery.ssm.modle.User" id="BaseResultMap">
+	<id column="id" property="id" jdbcType="INTEGER"/>
+	<result column="user_name" property="username" jdbcType="VARCHAR"/>
+	<result column="password" property="password" jdbcType="VARCHAR"/>
+	<result column="age" property="age"  jdbcType="INTEGER"/>
+	<result column="image" property="image" jdbcType="VARCHAR"/>
+</resultMap>
+<sql id="Resultlist">
+id,user_name,password,age,image
+</sql>
+<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+ select 
+ <include refid="Resultlist"></include>
+ from user_t where id = #{id,jdbcType=INTEGER}
+</select>
+
+<select id="getUserByName" resultMap="BaseResultMap" parameterType="String">
+  select 
+  *
+  from user_t where user_name = #{username} 
+</select>
+<select id="querylist" resultMap="BaseResultMap"  parameterType="int">
+  select * from user_t limit #{page},#{size}
+   
+</select>
+<select id="countnum" resultType="int">
+	select count(*) from user_t 
+</select>
+
+<update  id="addUser" parameterType="org.chery.ssm.modle.User">
+  update user_t set image = #{image} where user_name = #{username}
+</update>
+<!--  
+<insert id="insertUser" parameterType="org.chery.ssm.modle.User">
+ insert into user_t
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        user_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  -->
+</mapper>
